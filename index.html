@@ -84,8 +84,8 @@
     <script src="https://code.jquery.com/jquery.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
-    <script src= "moment.js"
-    <script>
+   
+   <script>
 
         var firebaseConfig = {
             apiKey: "AIzaSyAfvjZhPAAKdep6SICLS8jyaq3eecwgJd0",
@@ -97,7 +97,8 @@
             appId: "1:614936906480:web:284d08df2fd5ab14"
         };
 
-        firebase.initializeApp(config);
+        firebase.initializeApp(firebaseConfig);
+
         var database = firebase.database();
 
         var trainName = "";
@@ -117,15 +118,15 @@
             trainName = $("#name-input").val().trim();
             destination = $("#destination-input").val().trim();
             frequency = $("#frequency-input").val().trim();
-            nextArrival = $("#comment-input").val().trim(); //?
-            minutesAway = $("#comment-input").val().trim(); //?
+            nextArrival = $("#nextArrival-input").val().trim(); //?
+            minutesAway = $("#minutesAway-input").val().trim(); //?
 
             database.ref().set({
-                trainnName: name,
-                destination: email,
-                frequency: age,
-                nextArrival: time,
-                minutesAway: number
+                trainnName: trainName,
+                destination: destination,
+                frequency: frequency,
+                nextArrival: nextArrival,
+                minutesAway: minutesAway
             });
 
         });
