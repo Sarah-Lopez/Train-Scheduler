@@ -8,7 +8,6 @@
     <title>Train Scheduler</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 </head>
 
@@ -34,21 +33,21 @@
                         <th scope="row">Red Train</th>
                         <td>Phoenix</td>
                         <td>30</td>
-                        <td>03:00 AM</td>
+                        <td id="timepicker">03:00 AM</td>
                         <td>10</td>
                     </tr>
                     <tr>
                         <th scope="row">Orange Train</th>
                         <td>Tempe</td>
                         <td>20</td>
-                        <td>03:00 AM</td>
+                        <td id="timepicker">03:00 AM</td>
                         <td>10</td>
                     </tr>
                     <tr>
                         <th scope="row">Yellow Train</th>
                         <td>Chandler</td>
                         <td>60</td>
-                        <td>03:00 AM</td>
+                        <td id="timepicker">03:00 AM</td>
                         <td>10</td>
                     </tr>
 
@@ -82,12 +81,80 @@
     </div>
 
 
-    $(function () {
-        $('#datetimepicker5').datetimepicker({
-            use24hours: true
-        });
-    });
+    <script src="https://code.jquery.com/jquery.js"></script>
 
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+    <script src= "moment.js"
+    <script>
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyAfvjZhPAAKdep6SICLS8jyaq3eecwgJd0",
+            authDomain: "train-scheduler-5e75f.firebaseapp.com",
+            databaseURL: "https://train-scheduler-5e75f.firebaseio.com",
+            projectId: "train-scheduler-5e75f",
+            storageBucket: "train-scheduler-5e75f.appspot.com",
+            messagingSenderId: "614936906480",
+            appId: "1:614936906480:web:284d08df2fd5ab14"
+        };
+
+        firebase.initializeApp(config);
+        var database = firebase.database();
+
+        var trainName = "";
+        var destination = "";
+        var frequency = 0;
+        var nextArrival = 0;
+        var minutesAway = 0;
+
+        // Capture Button Click
+        $("#add-train").on("click", function (event) {
+            // Don't refresh the page!
+            event.preventDefault();
+
+            // YOUR TASK!!!
+            // Code in the logic for storing and retrieving the most recent user.
+            // Don't forget to provide initial data to your Firebase database.
+            trainName = $("#name-input").val().trim();
+            destination = $("#destination-input").val().trim();
+            frequency = $("#frequency-input").val().trim();
+            nextArrival = $("#comment-input").val().trim(); //?
+            minutesAway = $("#comment-input").val().trim(); //?
+
+            database.ref().set({
+                trainnName: name,
+                destination: email,
+                frequency: age,
+                nextArrival: time,
+                minutesAway: number
+            });
+
+        });
+
+        // Firebase watcher + initial loader HINT: .on("value")
+        database.ref().on("value", function (snapshot) {
+
+            // Log everything that's coming out of snapshot
+            console.log(snapshot.val());
+            console.log(snapshot.val().trainName);
+            console.log(snapshot.val().destination);
+            console.log(snapshot.val().frequency);
+            console.log(snapshot.val().nextArrival);
+            console.log(snapshot.val().minutesAway);
+
+            // Change the HTML to reflect
+            $("#trainName-display").text(snapshot.val().name);
+            $("#destination-display").text(snapshot.val().email);
+            $("#frequency-display").text(snapshot.val().age);
+            $("#nextArrival-display").text(snapshot.val().comment); //unnecessary?
+            $("#minutesAway-display").text(snapshot.val().comment); //unnecessary?
+
+            // Handle the errors
+        }, function (errorObject) {
+            console.log("Errors handled: " + errorObject.code);
+        });
+
+    </script>
 
 </body>
+
 </html>
